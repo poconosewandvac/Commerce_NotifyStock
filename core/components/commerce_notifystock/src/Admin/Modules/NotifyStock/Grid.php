@@ -203,10 +203,10 @@ class Grid extends GridWidget
 
         $output = [];
         foreach ($conditions as $condition) {
-            $output[] = $condition['field'] . ' ' . $condition['condition'] . ' ' . $condition['value'];
+            $output[] = '<li>' . $condition['field'] . ' ' . $condition['condition'] . ' ' . $condition['value'] . '</li>';
         }
 
-        return implode('<br>', $output);
+        return '<ul class="ui list">' . implode('', $output) . '</ul>';
     }
 
     private function getMessageById(int $id): ?\NotifyStockMessage
