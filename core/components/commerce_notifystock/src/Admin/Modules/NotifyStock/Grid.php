@@ -19,6 +19,7 @@ class Grid extends GridWidget
 
         $q = $this->adapter->newQuery('NotifyStockRequest');
         $q->where(['NotifyStockRequest.removed' => 0]);
+        $q->leftJoin('comProduct', 'Product', ['Product.id = NotifyStockRequest.product']);
         $q->leftJoin('modUser', 'User', ['User.id = NotifyStockRequest.user']);
         $q->leftJoin('modUserProfile', 'UserProfile', ['UserProfile.internalKey = User.id']);
 
@@ -34,10 +35,17 @@ class Grid extends GridWidget
             ]);
         }
 
-        if (array_key_exists('search_by_email', $options) && strlen($options['search_by_email']) > 0) {
+        if (array_key_exists('product', $options) && strlen($options['product']) > 0) {
             $q->where([
-                'NotifyStockRequest.email:LIKE' => '%' . $options['search_by_email'] . '%',
-                'OR:UserProfile.email:LIKE' => '%' . $options['search_by_email'] . '%',
+                'Product.name:LIKE' => '%' . $options['product'] . '%',
+                'OR:Product.sku:LIKE' => '%' . $options['product'] . '%',
+            ]);
+        }
+
+        if (array_key_exists('email', $options) && strlen($options['email']) > 0) {
+            $q->where([
+                'NotifyStockRequest.email:LIKE' => '%' . $options['email'] . '%',
+                'OR:UserProfile.email:LIKE' => '%' . $options['email'] . '%',
             ]);
         }
 
@@ -56,17 +64,17 @@ class Grid extends GridWidget
     public function getColumns(array $options = [])
     {
         return [
-            new Column('user', $this->adapter->lexicon('commerce_notifystock.user')),
-            new Column('message', $this->adapter->lexicon('commerce_notifystock.message'), true),
+            new Column('product', $this->adapter->lexicon('commerce_notifystock.product'), true),
             new Column('email', $this->adapter->lexicon('commerce_notifystock.email'), true),
-            new Column('conditions', $this->adapter->lexicon('commerce_notifystock.conditions')),
+            new Column('conditions', $this->adapter->lexicon('commerce_notifystock.conditions'), false, true),
+            new Column('message', $this->adapter->lexicon('commerce_notifystock.message'), true, true),
             new Column('added_on', $this->adapter->lexicon('commerce_notifystock.added_on'), true),
             new Column('completed', $this->adapter->lexicon('commerce_notifystock.completed'), true, true),
             new Column('completed_on', $this->adapter->lexicon('commerce_notifystock.completed_on'), true),
         ];
     }
 
-    public function getTopToolbar(array $options = array())
+    public function getTopToolbar(array $options = [])
     {
         $toolbar = [];
 
@@ -82,12 +90,21 @@ class Grid extends GridWidget
         ];
 
         $toolbar[] = [
-            'name' => 'search_by_email',
+            'name' => 'email',
             'title' => $this->adapter->lexicon('commerce_notifystock.search_by_email'),
             'type' => 'textfield',
             'value' => array_key_exists('search_by_email', $options) ? (int)$options['search_by_email'] : '',
             'position' => 'top',
-            'width' => 'six wide'
+            'width' => 'three wide'
+        ];
+
+        $toolbar[] = [
+            'name' => 'product',
+            'title' => $this->adapter->lexicon('commerce_notifystock.search_by_product'),
+            'type' => 'textfield',
+            'value' => array_key_exists('search_by_email', $options) ? (int)$options['search_by_product'] : '',
+            'position' => 'top',
+            'width' => 'three wide'
         ];
 
         $toolbar[] = [
@@ -135,6 +152,22 @@ class Grid extends GridWidget
     {
         $item = $notifyStockRequest->toArray('', false, true);
 
+        if ($product = $this->adapter->getObject('comProduct', $item['product'])) {
+            $item['product'] = $product->getName() . ' (' . $product->get('id') . ')';
+        }
+
+        if ($item['user'] > 0) {
+            if ($user = $this->adapter->getObject('modUser', $item['user'])) {
+                $item['email'] = $user->getOne('Profile')->get('email');
+            }
+        }
+
+        $item['conditions'] = $this->getConditionsFormatted($item['conditions']);
+
+        if ($message = $this->getMessageById((int) $item['message'])) {
+            $item['message'] = $message->get('name');
+        }
+
         if ($item['completed_on'] == 0) {
             $item['completed_on'] = $this->adapter->lexicon('commerce_notifystock.not_applicable');
         }
@@ -160,6 +193,25 @@ class Grid extends GridWidget
             ->setIcon('icon-trash');
 
         return $item;
+    }
+
+    private function getConditionsFormatted($conditions)
+    {
+        if (!is_array($conditions)) {
+            return '';
+        }
+
+        $output = [];
+        foreach ($conditions as $condition) {
+            $output[] = $condition['field'] . ' ' . $condition['condition'] . ' ' . $condition['value'];
+        }
+
+        return implode('<br>', $output);
+    }
+
+    private function getMessageById(int $id): ?\NotifyStockMessage
+    {
+        return $this->adapter->getObject('NotifyStockMessage', $id);
     }
 
     private function getMessageOptions()

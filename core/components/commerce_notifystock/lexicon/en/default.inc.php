@@ -8,12 +8,14 @@ $_lang['commerce_notifystock.update'] = 'Update';
 $_lang['commerce_notifystock.delete'] = 'Delete';
 $_lang['commerce_notifystock.not_applicable'] = 'N/A';
 $_lang['commerce_notifystock.search_by_email'] = 'Search by Email';
+$_lang['commerce_notifystock.search_by_product'] = 'Search by Product';
 $_lang['commerce_notifystock.search_by_name'] = 'Search by Name';
 $_lang['commerce_notifystock.search'] = 'Search';
 
 // Request
 $_lang['commerce_notifystock.notify_stock_request'] = 'Stock Request';
 $_lang['commerce_notifystock.requests'] = 'Requests';
+$_lang['commerce_notifystock.product'] = 'Product';
 $_lang['commerce_notifystock.message'] = 'Message';
 $_lang['commerce_notifystock.messages'] = 'Messages';
 $_lang['commerce_notifystock.select_message'] = 'Select a Message';
