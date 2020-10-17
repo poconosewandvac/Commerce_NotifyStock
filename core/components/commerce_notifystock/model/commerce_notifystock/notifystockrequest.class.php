@@ -157,7 +157,7 @@ class NotifyStockRequest extends comSimpleObject
         }
 
         try {
-            $subject = $this->commerce->view()->renderString($this->get('subject'), $placeholders);
+            $subject = $this->commerce->view()->renderString($message->get('subject'), $placeholders);
             $subject = $this->adapter->parseMODXTags($subject);
         } catch (ViewException $e) {
             $this->adapter->log(1, '[NotifyStockRequest] Could not send email for notify request ' . $this->get('id') . ' due to template rendering exception in the subject: ' . $e->getMessage());
@@ -174,6 +174,10 @@ class NotifyStockRequest extends comSimpleObject
         $mail->set(\modMail::MAIL_BODY, $body);
         $mail->set(\modMail::MAIL_FROM, $from);
         $mail->set(\modMail::MAIL_FROM_NAME, $this->commerce->getOption('site_name'));
+        if ($message->get('reply_to') && filter_var($message->get('reply_to'), \FILTER_VALIDATE_EMAIL)) {
+            $mail->address('reply-to', $message->get('reply_to'));
+        }
+
         $mail->set(\modMail::MAIL_SUBJECT, $subject);
         $mail->address('to', $this->get('email'));
         $mail->setHTML(true);

@@ -3,6 +3,7 @@
     <object class="NotifyStockMessage" extends="comSimpleObject" table="commerce_notify_stock_message">
         <field key="name" dbtype="varchar" precision="255" phptype="string" null="false" />
         <field key="from" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <field key="reply_to" dbtype="varchar" precision="255" phptype="string" null="true" default=""/>
         <field key="subject" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
         <field key="content" dbtype="text" precision="255" phptype="string" null="false" default="" />
 

@@ -23,6 +23,7 @@ $xpdo_meta_map['NotifyStockMessage']= array (
   array (
     'name' => NULL,
     'from' => '',
+    'reply_to' => '',
     'subject' => '',
     'content' => '',
     'removed' => 0,
@@ -44,6 +45,14 @@ $xpdo_meta_map['NotifyStockMessage']= array (
       'precision' => '255',
       'phptype' => 'string',
       'null' => false,
+      'default' => '',
+    ),
+    'reply_to' => 
+    array (
+      'dbtype' => 'varchar',
+      'precision' => '255',
+      'phptype' => 'string',
+      'null' => true,
       'default' => '',
     ),
     'subject' => 
