@@ -94,36 +94,48 @@ $modx->log(modX::LOG_LEVEL_INFO,'Packaged in core, requirements validator, and m
  *
  * If you have web-accessible assets in core/components/<package>/, then uncomment this section to package them too
  */
-//$builder->package->put(
-//    [
-//        'source' => $sources['source_assets'],
-//        'target' => "return MODX_ASSETS_PATH . 'components/';",
-//    ],
-//    [
-//        'vehicle_class' => 'xPDOFileVehicle',
-//    ]
-//);
-//$modx->log(modX::LOG_LEVEL_INFO,'Packaged in assets.'); flush();
+$builder->package->put(
+    [
+        'source' => $sources['source_assets'],
+        'target' => "return MODX_ASSETS_PATH . 'components/';",
+    ],
+    [
+        'vehicle_class' => 'xPDOFileVehicle',
+    ]
+);
+$modx->log(modX::LOG_LEVEL_INFO,'Packaged in assets.'); flush();
 
 /**
  * Settings
  *
  * If you have settings, uncomment this section to create them. See data/settings.php.
  */
-//$settings = include $sources['data'] . 'transport.settings.php';
-//if (is_array($settings)) {
-//    $attributes = [
-//        xPDOTransport::UNIQUE_KEY => 'key',
-//        xPDOTransport::PRESERVE_KEYS => true,
-//        xPDOTransport::UPDATE_OBJECT => false,
-//    ];
-//    foreach ($settings as $setting) {
-//        $vehicle = $builder->createVehicle($setting,$attributes);
-//        $builder->putVehicle($vehicle);
-//    }
-//    $modx->log(modX::LOG_LEVEL_INFO,'Packaged in ' . count($settings) . ' system settings.'); flush();
-//    unset($settings,$setting,$attributes);
-//}
+$settings = include $sources['data'] . 'transport.settings.php';
+if (is_array($settings)) {
+    $attributes = [
+        xPDOTransport::UNIQUE_KEY => 'key',
+        xPDOTransport::PRESERVE_KEYS => true,
+        xPDOTransport::UPDATE_OBJECT => false,
+    ];
+    foreach ($settings as $setting) {
+        $vehicle = $builder->createVehicle($setting,$attributes);
+        $builder->putVehicle($vehicle);
+    }
+    $modx->log(modX::LOG_LEVEL_INFO,'Packaged in ' . count($settings) . ' system settings.'); flush();
+    unset($settings,$setting,$attributes);
+}
+
+$category = $modx->newObject('modCategory');
+$category->set('category',PKG_NAME);
+$snippets = include $sources['data'].'transport.snippets.php';
+if (is_array($snippets)) {
+    $category->addMany($snippets,'Snippets');
+    $modx->log(modX::LOG_LEVEL_INFO,'Packaged in '.count($snippets).' snippets.'); flush();
+}
+else {
+    $modx->log(modX::LOG_LEVEL_FATAL,'Adding snippets failed.');
+}
+unset($snippets);
 
 /* now pack in the license file, readme and setup options */
 $builder->setPackageAttributes([

@@ -41,3 +41,7 @@ $_lang['commerce_notifystock.from'] = 'From';
 $_lang['commerce_notifystock.content'] = 'Content';
 
 $_lang['commerce_notifystock.email_invalid'] = 'Invalid email';
+
+// Frontend form
+$_lang['commerce_notifystock.form.email_error'] = 'Please enter a valid email address';
+$_lang['commerce_notifystock.form.product_error_nf'] = 'Product not found.';
