@@ -1,0 +1,8 @@
+{% extends "emails/wrapper.twig" %}
+
+{% block subject %}{{ lex('commerce_notifystock.email_subject', { name: config.site_name, subject: message.subject }) }}{% endblock %}
+{% block content %}
+
+    <h1>Product(s) you are watching have changed!</h1>
+
+{% endblock %}
