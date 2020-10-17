@@ -1,8 +1,29 @@
 {% extends "emails/wrapper.twig" %}
 
-{% block subject %}{{ lex('commerce_notifystock.email_subject', { name: config.site_name, subject: message.subject }) }}{% endblock %}
+{#
+    In this template you have access to the following placeholders:
+
+    - product - all of comProduct's fields
+    - product_resource - if the target field is filled on the product, this will be the modResource object
+    - user - modUser fields if user field was populated, null otherwise
+    - conditions - array of conditions that was used to generate this message
+    - email - user's email
+    - added_on - when the notify request was initially created
+    - message - NotifyStockMessage instance with the following fields (used to generate email data):
+        - name
+        - from
+        - reply_to
+        - subject
+    - config - array of with the following options:
+        - site_url
+        - site_name
+        - email_header
+        - email_footer
+#}
+
 {% block content %}
+    <h1>{{ product.name }} has changed!</h1>
 
-    <h1>Product(s) you are watching have changed!</h1>
-
+    <p>{{ product.name }} - {{ product.sku }}</p>
+    <p style="font-weight: bold;">View product: <a href="{{ product.link }}">{{ product.name }}</a></p>
 {% endblock %}

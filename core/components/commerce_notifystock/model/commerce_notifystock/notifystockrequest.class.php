@@ -133,8 +133,11 @@ class NotifyStockRequest extends comSimpleObject
         $product = $this->getProduct();
         $user = $this->getUser();
         $message = $this->getMessage();
+        $productResource = $this->getResource($product->get('target'));
+
         $placeholders = [
             'product' => $product ? $product->toArray() : null,
+            'product_resource' => $productResource,
             'user' => $user ? $user->toArray() : null,
             'conditions' => $this->get('conditions'),
             'email' => $this->get('email'),
@@ -189,5 +192,30 @@ class NotifyStockRequest extends comSimpleObject
         }
 
         return true;
+    }
+
+    /**
+     * Get product resource info placeholders
+     *
+     * @param $target
+     * @return array|null
+     */
+    private function getResource($target): ?array
+    {
+        /** @var \modResource $resource */
+        $resource = $this->adapter->getObject('modResource', $target);
+        if (!$resource) {
+            return null;
+        }
+
+        $resourceFields = $resource->toArray();
+
+        $tvs = $resource->getTemplateVars();
+        $tvFields = [];
+        foreach ($tvs as $tv) {
+            $tvFields[$tv->get('name')] = $tv->get('value');
+        }
+
+        return array_merge($resourceFields, $tvFields);
     }
 }
