@@ -1,5 +1,11 @@
 NotifyStock for Commerce
 ---------------------------------
-Released on 9/19/2020
 
+v1.0.1-pl Released on 10/24/2020
+---------------------------------
+- Fix incorrect vendor path in cron runner
+
+
+v1.0.0-pl Released on 9/19/2020
+---------------------------------
 - First release

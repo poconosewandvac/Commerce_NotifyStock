@@ -38,7 +38,7 @@ $commerce = $modx->getService('commerce', 'Commerce', $commercePath, ['mode' => 
 
 // Load NotifyStock
 $corePath = $modx->getOption('commerce_notifystock.core_path', null, $modx->getOption('core_path') . 'components/commerce_notifystock');
-require_once $corePath . 'vendor/autoload.php';
+require_once $corePath . '/vendor/autoload.php';
 
 $scheduledRunner = new \PoconoSewVac\NotifyStock\Cron\ScheduledRunner($commerce);
 $scheduledRunner->run();
