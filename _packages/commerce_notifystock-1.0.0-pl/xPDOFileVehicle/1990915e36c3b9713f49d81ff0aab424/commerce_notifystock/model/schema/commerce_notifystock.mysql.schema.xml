@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model package="commerce_notifystock" baseClass="comSimpleObject" platform="mysql" defaultEngine="InnoDB" version="1.1">
+    <object class="NotifyStockMessage" extends="comSimpleObject" table="commerce_notify_stock_message">
+        <field key="name" dbtype="varchar" precision="255" phptype="string" null="false" />
+        <field key="from" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <field key="reply_to" dbtype="varchar" precision="255" phptype="string" null="true" default=""/>
+        <field key="subject" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <field key="content" dbtype="text" precision="255" phptype="string" null="false" default="" />
+
+        <!-- Soft remove -->
+        <field key="removed" dbtype="tinyint" precision="1" phptype="boolean" null="false" default="0" />
+        <field key="removed_on" dbtype="datetime" phptype="datetime" null="true" />
+        <field key="removed_by" dbtype="tinyint" precision="1" phptype="boolean" null="false" default="0" />
+        <index alias="removed" name="removed" primary="false" unique="false" type="BTREE">
+            <column key="removed" length="" collation="A" null="false" />
+        </index>
+    </object>
+
+    <object class="NotifyStockRequest" extends="comSimpleObject" table="commerce_notify_stock_request">
+        <field key="user" dbtype="int" precision="10" phptype="int" null="false" default="0" />
+        <field key="email" dbtype="varchar" precision="320" phptype="string" null="false" />
+        <field key="product" dbtype="int" precision="10" phptype="int" null="false" />
+        <field key="conditions" dbtype="text" phptype="array" null="true" default=""/>
+        <field key="message" dbtype="int" precision="10" phptype="int" null="false" />
+        <field key="added_on" dbtype="datetime" phptype="datetime" null="false" />
+        <field key="completed" dbtype="tinyint" precision="1" phptype="boolean" null="false" default="0" />
+        <field key="completed_on" dbtype="datetime" phptype="datetime" null="false" />
+
+        <!-- Soft remove -->
+        <field key="removed" dbtype="tinyint" precision="1" phptype="boolean" null="false" default="0" />
+        <field key="removed_on" dbtype="datetime" phptype="datetime" null="true" />
+        <field key="removed_by" dbtype="tinyint" precision="1" phptype="boolean" null="false" default="0" />
+        <index alias="removed" name="removed" primary="false" unique="false" type="BTREE">
+            <column key="removed" length="" collation="A" null="false" />
+        </index>
+
+        <aggregate alias="User" class="modUser" local="user" foreign="id" cardinality="one" owner="foreign" />
+        <aggregate alias="Product" class="comProduct" local="product" foreign="id" cardinality="one" owner="foreign" />
+        <aggregate alias="Message" class="NotifyStockMessage" local="message" foreign="id" cardinality="one" owner="foreign" />
+    </object>
+</model>

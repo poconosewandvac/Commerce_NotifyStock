@@ -1,7 +1,7 @@
 <?php
 
 $snips = [
-    'commerce_notifystock.add_request_hook',
+    'commerce_notifystock.add_request_hook' => 'Add notify request FormIt hook',
 ];
 
 $snippets = [];
@@ -12,7 +12,7 @@ foreach ($snips as $name => $description) {
     $snippets[$idx] = $modx->newObject('modSnippet');
     $snippets[$idx]->fromArray(array(
         'name' => $name,
-        'description' => $description . ' (Part of Commerce)',
+        'description' => $description,
         'snippet' => getSnippetContent($sources['snippets'] . strtolower($name) . '.snippet.php')
     ));
 }

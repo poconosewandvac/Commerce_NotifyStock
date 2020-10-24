@@ -1,0 +1,15 @@
+<?php return array (
+  'class' => 'xPDOFileVehicle',
+  'object' => 
+  array (
+    'source' => 'commerce_notifystock-1.0.0-pl/xPDOFileVehicle/e6a4f73493695acdecd80e5681f707f1/',
+    'target' => 'return MODX_ASSETS_PATH . \'components/\';',
+    'name' => 'commerce_notifystock',
+  ),
+  'vehicle_class' => 'xPDOFileVehicle',
+  'vehicle_package' => 'transport',
+  'guid' => '4a4be90c83f1c580d92025530e8746cd',
+  'package' => '',
+  'signature' => 'e6a4f73493695acdecd80e5681f707f1',
+  'native_key' => '4a4be90c83f1c580d92025530e8746cd',
+);

@@ -1,0 +1,16 @@
+<?php return array (
+  'unique_key' => 'key',
+  'preserve_keys' => true,
+  'update_object' => false,
+  'namespace' => 'commerce_notifystock',
+  'resolve' => NULL,
+  'validate' => NULL,
+  'vehicle_package' => 'transport',
+  'vehicle_class' => 'xPDOObjectVehicle',
+  'guid' => '30a1b578ed2274c1a8c10ebeba1b125b',
+  'package' => 'modx',
+  'class' => 'modSystemSetting',
+  'signature' => 'cee8e09b4eb8da8ffc6c55ac83b9da33',
+  'native_key' => 'commerce_notifystock.web_cron',
+  'object' => '{"key":"commerce_notifystock.web_cron","value":true,"xtype":"modx-combo-boolean","namespace":"commerce_notifystock","area":"general","editedon":1603545566}',
+);

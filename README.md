@@ -28,8 +28,14 @@ A few example use cases this module can be used for to send an email:
 Example cron entry checking for product updates every hour:
 
 ```
-0 * * * * /usr/bin/php /path_to_modx/assets/components/commerce_notifystock/run.php &> /dev/null
+0 * * * * /usr/bin/php /var/www/html/assets/components/commerce_notifystock/run.php > /dev/null 2>&1
 ```
+
+**Make sure to replace /var/www/html with the actual path of your web root.**
+
+#### Securing the Cronjob
+
+By default, the cronjob is allowed to run via a web request (to enable the usage of web-based cron services). It is recommended to disable web access for security by changing the following system setting in MODX to "No": `commerce_notifystock.web_cron`. This will prevent requests from the web from running the script to send notify request emails.
 
 ### Creating a Message to Send
 
@@ -62,6 +68,8 @@ A notify request can be created within the admin UI under Notify Stock -> Reques
 
 The notify request will be checked during each cron run to see if it meets the conditions set. If it does, it will send an email then remove the notify request.
 
+**Note that all monetary values in conditions are in cents!** 
+
 ### Creating a Notify Request on the Frontend
 
 This module comes with a FormIt hook, commerce_notifystock.add_request_hook, which allows adding a form to the frontend to add a notify request for a product.
@@ -93,3 +101,7 @@ This module comes with a FormIt hook, commerce_notifystock.add_request_hook, whi
     <input type="submit" name="notify-form" value="Submit">
 </form>
 ```
+
+## License
+
+[MIT](https://github.com/poconosewandvac/Commerce_NotifyStock/blob/master/core/components/commerce_notifystock/docs/license.txt)

@@ -128,6 +128,31 @@ if (is_array($settings)) {
 $category = $modx->newObject('modCategory');
 $category->set('category',PKG_NAME);
 $snippets = include $sources['data'].'transport.snippets.php';
+
+/* create category vehicle */
+$attr = array(
+    xPDOTransport::UNIQUE_KEY => 'category',
+    xPDOTransport::PRESERVE_KEYS => true,
+    xPDOTransport::UPDATE_OBJECT => true,
+    xPDOTransport::RELATED_OBJECTS => true,
+    xPDOTransport::RELATED_OBJECT_ATTRIBUTES => array (
+        'Snippets' => array(
+            xPDOTransport::PRESERVE_KEYS => true,
+            xPDOTransport::UPDATE_OBJECT => true,
+            xPDOTransport::UNIQUE_KEY => 'name',
+        ),
+    ),
+
+    xPDOTransport::ABORT_INSTALL_ON_VEHICLE_FAIL => true,
+);
+
+$modx->addPackage('commerce_notifystock', $sources['model']);
+
+$vehicle = $builder->createVehicle($category,$attr);
+$vehicle->resolve('php',array(
+    'source' => $sources['resolvers'] . 'tables.resolver.php',
+));
+
 if (is_array($snippets)) {
     $category->addMany($snippets,'Snippets');
     $modx->log(modX::LOG_LEVEL_INFO,'Packaged in '.count($snippets).' snippets.'); flush();
@@ -136,6 +161,8 @@ else {
     $modx->log(modX::LOG_LEVEL_FATAL,'Adding snippets failed.');
 }
 unset($snippets);
+
+$builder->putVehicle($vehicle);
 
 /* now pack in the license file, readme and setup options */
 $builder->setPackageAttributes([

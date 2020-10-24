@@ -1,0 +1,50 @@
+<?php return array (
+  'unique_key' => 'category',
+  'preserve_keys' => true,
+  'update_object' => true,
+  'related_objects' => 
+  array (
+    'Snippets' => 
+    array (
+      '24f69dd4589cfdac3e9fadc2c82fd65c' => 
+      array (
+        'preserve_keys' => true,
+        'update_object' => true,
+        'unique_key' => 'name',
+        'class' => 'modSnippet',
+        'object' => '{"id":null,"source":0,"property_preprocess":0,"name":"commerce_notifystock.add_request_hook","description":"Add notify request FormIt hook","editor_type":0,"category":0,"cache_type":0,"snippet":"\\/**\\r\\n * Notify Stock Request\\r\\n * Formit hook to add a product notify request\\r\\n *\\/\\r\\n\\r\\n$path = $modx->getOption(\'commerce.core_path\', null, MODX_CORE_PATH . \'components\\/commerce\\/\') . \'model\\/commerce\\/\';\\r\\n$params = [\'mode\' => $modx->getOption(\'commerce.mode\')];\\r\\n\\/** @var \\\\Commerce|null $commerce *\\/\\r\\n$commerce = $modx->getService(\'commerce\', \'Commerce\', $path, $params);\\r\\nif (!($commerce instanceof \\\\Commerce)) {\\r\\n    return \'<p class=\\"error\\">Could not load Commerce.<\\/p>\';\\r\\n}\\r\\n\\r\\nif ($commerce->isDisabled()) {\\r\\n    return $commerce->adapter->lexicon(\'commerce.mode.disabled.message\');\\r\\n}\\r\\n\\r\\n\\/\\/ Validation\\r\\n$conditions = $modx->getOption(\'conditions\', $scriptProperties, \'\');\\r\\n$messageId = $modx->getOption(\'message\', $scriptProperties, 0);\\r\\n$email = $hook->getValue(\'email\');\\r\\n$productId = $hook->getValue(\'product\');\\r\\n$userId = $modx->user->get(\'id\');\\r\\n\\r\\n$decodedConditions = json_decode($conditions, true);\\r\\necho $decodedConditions;\\r\\n\\r\\nif (empty($conditions) || json_last_error() !== JSON_ERROR_NONE || count($decodedConditions) === 0) {\\r\\n    $hook->addError(\'product\', \'Conditions must be set as valid JSON and not empty.\');\\r\\n    return false;\\r\\n}\\r\\n\\r\\n$message = $modx->getObject(\'NotifyStockMessage\', $messageId);\\r\\nif (!$message) {\\r\\n    $hook->addError(\'product\', \'Invalid message ID.\');\\r\\n    return false;\\r\\n}\\r\\n\\r\\nif (!$email || filter_var($email, FILTER_VALIDATE_EMAIL) === false) {\\r\\n    $hook->addError(\'email\', $modx->lexicon(\'commerce_notifystock.form.email_error\'));\\r\\n    return false;\\r\\n}\\r\\n\\r\\nif (!$productId) {\\r\\n    $hook->addError(\'product\', $modx->lexicon(\'commerce_notifystock.form.product_error_nf\'));\\r\\n    return false;\\r\\n}\\r\\n\\r\\n$product = $modx->getObject(\'comProduct\', $productId);\\r\\nif (!$product) {\\r\\n    $hook->addError(\'product\', $modx->lexicon(\'commerce_notifystock.form.product_error_nf\'));\\r\\n    return false;\\r\\n}\\r\\n\\r\\n\\/** @var \\\\NotifyStockRequest $notifyRequest *\\/\\r\\n$notifyRequest = $modx->newObject(\'NotifyStockRequest\');\\r\\n$notifyRequest->fromArray([\\r\\n    \'user\' => $userId,\\r\\n    \'message\' => $messageId,\\r\\n    \'conditions\' => $decodedConditions,\\r\\n    \'email\' => $email,\\r\\n    \'product\' => $productId,\\r\\n    \'added_on\' => time(),\\r\\n]);\\r\\n\\r\\nreturn $notifyRequest->save();","locked":0,"properties":null,"moduleguid":"","static":0,"static_file":"","content":"\\/**\\r\\n * Notify Stock Request\\r\\n * Formit hook to add a product notify request\\r\\n *\\/\\r\\n\\r\\n$path = $modx->getOption(\'commerce.core_path\', null, MODX_CORE_PATH . \'components\\/commerce\\/\') . \'model\\/commerce\\/\';\\r\\n$params = [\'mode\' => $modx->getOption(\'commerce.mode\')];\\r\\n\\/** @var \\\\Commerce|null $commerce *\\/\\r\\n$commerce = $modx->getService(\'commerce\', \'Commerce\', $path, $params);\\r\\nif (!($commerce instanceof \\\\Commerce)) {\\r\\n    return \'<p class=\\"error\\">Could not load Commerce.<\\/p>\';\\r\\n}\\r\\n\\r\\nif ($commerce->isDisabled()) {\\r\\n    return $commerce->adapter->lexicon(\'commerce.mode.disabled.message\');\\r\\n}\\r\\n\\r\\n\\/\\/ Validation\\r\\n$conditions = $modx->getOption(\'conditions\', $scriptProperties, \'\');\\r\\n$messageId = $modx->getOption(\'message\', $scriptProperties, 0);\\r\\n$email = $hook->getValue(\'email\');\\r\\n$productId = $hook->getValue(\'product\');\\r\\n$userId = $modx->user->get(\'id\');\\r\\n\\r\\n$decodedConditions = json_decode($conditions, true);\\r\\necho $decodedConditions;\\r\\n\\r\\nif (empty($conditions) || json_last_error() !== JSON_ERROR_NONE || count($decodedConditions) === 0) {\\r\\n    $hook->addError(\'product\', \'Conditions must be set as valid JSON and not empty.\');\\r\\n    return false;\\r\\n}\\r\\n\\r\\n$message = $modx->getObject(\'NotifyStockMessage\', $messageId);\\r\\nif (!$message) {\\r\\n    $hook->addError(\'product\', \'Invalid message ID.\');\\r\\n    return false;\\r\\n}\\r\\n\\r\\nif (!$email || filter_var($email, FILTER_VALIDATE_EMAIL) === false) {\\r\\n    $hook->addError(\'email\', $modx->lexicon(\'commerce_notifystock.form.email_error\'));\\r\\n    return false;\\r\\n}\\r\\n\\r\\nif (!$productId) {\\r\\n    $hook->addError(\'product\', $modx->lexicon(\'commerce_notifystock.form.product_error_nf\'));\\r\\n    return false;\\r\\n}\\r\\n\\r\\n$product = $modx->getObject(\'comProduct\', $productId);\\r\\nif (!$product) {\\r\\n    $hook->addError(\'product\', $modx->lexicon(\'commerce_notifystock.form.product_error_nf\'));\\r\\n    return false;\\r\\n}\\r\\n\\r\\n\\/** @var \\\\NotifyStockRequest $notifyRequest *\\/\\r\\n$notifyRequest = $modx->newObject(\'NotifyStockRequest\');\\r\\n$notifyRequest->fromArray([\\r\\n    \'user\' => $userId,\\r\\n    \'message\' => $messageId,\\r\\n    \'conditions\' => $decodedConditions,\\r\\n    \'email\' => $email,\\r\\n    \'product\' => $productId,\\r\\n    \'added_on\' => time(),\\r\\n]);\\r\\n\\r\\nreturn $notifyRequest->save();"}',
+        'guid' => 'dd24a4349137368dd08a31a22161dd07',
+        'native_key' => NULL,
+        'signature' => '83b38ffd15ea53ab590c9d8667ee49a3',
+      ),
+    ),
+  ),
+  'related_object_attributes' => 
+  array (
+    'Snippets' => 
+    array (
+      'preserve_keys' => true,
+      'update_object' => true,
+      'unique_key' => 'name',
+    ),
+  ),
+  'abort_install_on_vehicle_fail' => true,
+  'namespace' => 'commerce_notifystock',
+  'resolve' => 
+  array (
+    0 => 
+    array (
+      'type' => 'php',
+      'body' => '{"source":"commerce_notifystock-1.0.0-pl\\/modCategory\\/209119cf1d9850e310a89bf39c192507.tables.resolver.resolver","type":"php","name":"tables.resolver"}',
+    ),
+  ),
+  'validate' => NULL,
+  'vehicle_package' => 'transport',
+  'vehicle_class' => 'xPDOObjectVehicle',
+  'guid' => '9e5829380bab41524539f90d7d29950a',
+  'package' => 'modx',
+  'class' => 'modCategory',
+  'signature' => '209119cf1d9850e310a89bf39c192507',
+  'native_key' => NULL,
+  'object' => '{"id":null,"parent":0,"category":"Commerce_Notifystock","rank":0}',
+);
