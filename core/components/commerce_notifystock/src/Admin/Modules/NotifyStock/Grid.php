@@ -33,6 +33,10 @@ class Grid extends GridWidget
             $q->where([
                 'NotifyStockRequest.completed' => $options['completed'],
             ]);
+        } else {
+            $q->where([
+                'NotifyStockRequest.completed' => false,
+            ]);
         }
 
         if (array_key_exists('product', $options) && strlen($options['product']) > 0) {
@@ -168,7 +172,7 @@ class Grid extends GridWidget
             $item['message'] = $message->get('name');
         }
 
-        if ($item['completed_on'] == 0) {
+        if ($item['completed_on'] == 0 || $item['completed_on'] == null) {
             $item['completed_on'] = $this->adapter->lexicon('commerce_notifystock.not_applicable');
         }
 

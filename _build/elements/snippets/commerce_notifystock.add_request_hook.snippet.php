@@ -25,7 +25,6 @@ $productId = $hook->getValue('product');
 $userId = $modx->user->get('id');
 
 $decodedConditions = json_decode($conditions, true);
-echo $decodedConditions;
 
 if (empty($conditions) || json_last_error() !== JSON_ERROR_NONE || count($decodedConditions) === 0) {
     $hook->addError('product', 'Conditions must be set as valid JSON and not empty.');

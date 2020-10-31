@@ -45,3 +45,8 @@ $_lang['commerce_notifystock.email_invalid'] = 'Invalid email';
 // Frontend form
 $_lang['commerce_notifystock.form.email_error'] = 'Please enter a valid email address';
 $_lang['commerce_notifystock.form.product_error_nf'] = 'Product not found.';
+
+// Reports
+$_lang['commerce.menu.reports_notifystock'] = 'Notify Stock';
+$_lang['commerce_notifystock.request_report'] = 'Notify Requests';
+$_lang['commerce_notifystock.request_report_desc'] = 'Export notify requests.';

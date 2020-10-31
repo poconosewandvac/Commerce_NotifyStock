@@ -1,6 +1,11 @@
 NotifyStock for Commerce
 ---------------------------------
 
+v1.1.0-pl Released on 10/31/2020 👻
+---------------------------------
+- Add report to export notify requests
+- Default to only display non-completed notify stock requests in admin grid
+
 v1.0.1-pl Released on 10/24/2020
 ---------------------------------
 - Fix incorrect vendor path in cron runner

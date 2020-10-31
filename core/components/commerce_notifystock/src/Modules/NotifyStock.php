@@ -9,7 +9,9 @@ use modmore\Commerce\Admin\Sections\SimpleSection;
 use modmore\Commerce\Events\Admin\GeneratorEvent;
 use modmore\Commerce\Events\Admin\TopNavMenu as TopNavMenuEvent;
 use modmore\Commerce\Events\Admin\PageEvent;
+use modmore\Commerce\Events\Reports;
 use modmore\Commerce\Modules\BaseModule;
+use PoconoSewVac\NotifyStock\Reports\Requests;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 require_once dirname(__DIR__, 2) . '/vendor/autoload.php';
@@ -51,6 +53,15 @@ class NotifyStock extends BaseModule {
 
         // Add composer libraries to the about section (v0.12+)
         $dispatcher->addListener(\Commerce::EVENT_DASHBOARD_LOAD_ABOUT, [$this, 'addLibrariesToAbout']);
+
+        // Add reports
+
+        $dispatcher->addListener(\Commerce::EVENT_DASHBOARD_REPORTS_GET_REPORTS, [$this, 'addReports']);
+    }
+
+    public function addReports(Reports $event)
+    {
+        $event->addReport(new Requests($this->commerce));
     }
 
     public function loadPages(GeneratorEvent $event)
