@@ -43,10 +43,10 @@ Before any notify requests can be sent, a message needs to be created under Noti
 
 ![New Message](docs/new-message.png)
 
-**Name**: Can be anything, used as a reference
-**Subject**: The email subject. All email placeholders are available here (see all available placeholders in the default standard.twig email template).
-**From**: The from email address.
-**Content**: Content of the email to send. This can refer to a Twig template. By default, this module comes with an example template that can be used:
+- **Name**: Can be anything, used as a reference
+- **Subject**: The email subject. All email placeholders are available here (see all available placeholders in the default standard.twig email template).
+- **From**: The from email address.
+- **Content**: Content of the email to send. This can refer to a Twig template. By default, this module comes with an example template that can be used:
 
 Example template:
 ```twig
@@ -61,10 +61,10 @@ A notify request can be created within the admin UI under Notify Stock -> Reques
 
 ![New Request](docs/new-request.png)
 
-**Email**: Customer/merchants email. Notification email will be sent to this address.
-**Product**: Product that will be checked.
-**Conditions**: Product conditions that need to be met to send the email. You can add as many conditions as needed.
-**Message**: The message template to use for the email.
+- **Email**: Customer/merchants email. Notification email will be sent to this address.
+- **Product**: Product that will be checked.
+- **Conditions**: Product conditions that need to be met to send the email. You can add as many conditions as needed.
+- **Message**: The message template to use for the email.
 
 The notify request will be checked during each cron run to see if it meets the conditions set. If it does, it will send an email then remove the notify request.
 
