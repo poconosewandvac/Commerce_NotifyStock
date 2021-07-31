@@ -74,7 +74,16 @@ The notify request will be checked during each cron run to see if it meets the c
 
 This module comes with a FormIt hook, commerce_notifystock.add_request_hook, which allows adding a form to the frontend to add a notify request for a product.
 
-**You must pass in JSON encoded conditions and the message ID to the FormIt call.**
+**You must pass in JSON encoded conditions and the message ID to the FormIt call.** The available conditions are:
+
+- equals
+- not equals
+- in
+- not in
+- empty
+- not empty
+- greater than
+- less than
 
 **Example Usage**:
 
